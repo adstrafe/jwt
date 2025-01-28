@@ -1,4 +1,5 @@
 import { createHmac } from 'node:crypto';
+import { Algorithm } from 'src/jwt';
 
 /**
  * Signs data using HMAC with the specified algorithm.
@@ -8,7 +9,7 @@ import { createHmac } from 'node:crypto';
  * @param algorithm - The HMAC algorithm to use ('SHA256', 'SHA384', or 'SHA512').
  * @returns The HMAC signature in base64 encoding.
  */
-export function hmacSign(data: string, secret: string, algorithm: 'SHA256' | 'SHA384' | 'SHA512') {
+export function hmacSign(data: string, secret: string, algorithm: Algorithm) {
 	const hmac = createHmac(algorithm, secret);
 	hmac.update(data);
 	return hmac.digest('base64');

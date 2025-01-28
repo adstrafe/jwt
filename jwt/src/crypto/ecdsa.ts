@@ -1,4 +1,5 @@
 import { createSign } from 'node:crypto';
+import { Algorithm } from 'src/jwt';
 
 /**
  * Signs data using ECDSA with the specified algorithm.
@@ -8,7 +9,7 @@ import { createSign } from 'node:crypto';
  * @param algorithm - The ECDSA signing algorithm to use ('ES256', 'ES384', or 'ES512').
  * @returns The ECDSA signature in base64 encoding.
  */
-export function ecdsaSign(data: string, privateKey: string, algorithm: 'ES256' | 'ES384' | 'ES512') {
+export function ecdsaSign(data: string, privateKey: string, algorithm: Algorithm) {
 	const sign = createSign(algorithm);
 	sign.update(data);
 	return sign.sign({ key: privateKey, dsaEncoding: 'ieee-p1363' }, 'base64');

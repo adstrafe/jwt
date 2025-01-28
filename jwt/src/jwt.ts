@@ -1,103 +1,32 @@
 import { hmacSign, ecdsaSign, rsaSign, encodeBase64 } from './crypto';
+import { JwtError } from './JwtError';
 
 export type Signature = string;
 /**
- * Enum representing HMAC signing algorithms used in JWT.
- * 
- * @enum JwtHmacAlgorithm
-*/
-export enum JwtHmacAlgorithm {
-	/**
-	 * HMAC using SHA-256.
-	 * 
-	 * @value HS256
-	 * @example 'HS256'
-	 */
-	HS256,
-
-	/**
-	 * HMAC using SHA-384.
-	 * 
-	 * @value HS384
-	 * @example 'HS384'
-	 */
-	HS384,
-
-	/**
-	 * HMAC using SHA-512.
-	 * 
-	 * @value HS512
-	 * @example 'HS512'
-	 */
-	HS512
-}
-
-/**
- * Enum representing RSA signing algorithms used in JWT.
- * 
- * @enum JwtRsaAlgorithm
-*/
-export enum JwtRsaAlgorithm {
-	/**
-	 * RSA using SHA-256.
-	 * 
-	 * @value RS256
-	 * @example 'RS256'
-	 */
-	RS256,
-
-	/**
-	 * RSA using SHA-384.
-	 * 
-	 * @value RS384
-	 * @example 'RS384'
-	 */
-	RS384,
-
-	/**
-	 * RSA using SHA-512.
-	 * 
-	 * @value RS512
-	 * @example 'RS512'
-	 */
-	RS512
-}
-
-/**
- * Enum representing ECDSA signing algorithms used in JWT.
- * 
- * @enum JwtEcdsaAlgorithm
-*/
-export enum JwtEcdsaAlgorithm {
-	/**
-	 * ECDSA using P-256 and SHA-256.
-	 * 
-	 * @value ES256
-	 * @example 'ES256'
-	 */
-	ES256, 
-
-	/**
-	 * ECDSA using P-384 and SHA-384.
-	 * 
-	 * @value ES384
-	 * @example 'ES384'
-	 */
-	ES384, 
-
-	/**
-	 * ECDSA using P-521 and SHA-512.
-	 * 
-	 * @value ES512
-	 * @example 'ES512'
-	 */
-	ES512
-}
-
+ * Supported algorithms for signing and verifying JWTs.
+ * @value 'HS256' HMAC using SHA-256
+ * @value 'HS384' HMAC using SHA-384
+ * @value 'HS512' HMAC using SHA-512
+ * @value 'RS256' RSA using SHA-256
+ * @value 'RS384' RSA using SHA-384
+ * @value 'RS512' RSA using SHA-512
+ * @value 'ES256' ECDSA using P-256 and SHA-256
+ * @value 'ES384' ECDSA using P-384 and SHA-384
+ * @value 'ES512' ECDSA using P-521 and SHA-512
+ */
+export type Algorithm =
+	'HS256' |
+	'HS384' |
+	'HS512' |
+	'RS256' |
+	'RS384' |
+	'RS512' |
+	'ES256' |
+	'ES384' |
+	'ES512'
 
 /**
  * The "typ" (type) claim specifies the type of JWT, indicating how the JWT is used.
- * 
  * @enum JwtTypes
  */
 export enum JwtTypes {
@@ -144,12 +73,13 @@ export enum JwtContentTypes {
  */
 export interface Header {
 	/**
-	 * The "alg" (algorithm) claim specifies the algorithm used to sign or encrypt the JWT.
-	 * It can be an HMAC, RSA, or ECDSA algorithm.
+	 * The "alg" (algorithm) claim specifies the cryptographic algorithm 
+	 * used to sign or encrypt the JWT.
+	 * Supported algorithms include HMAC, RSA, ECDSA, and "none" for unsecured tokens.
 	 * 
-	 * @value JwtHmacAlgorithm | JwtRsaAlgorithm | JwtEcdsaAlgorithm
+	 * @see Algorithm for the list of supported values.
 	 */
-	readonly alg: JwtHmacAlgorithm | JwtRsaAlgorithm | JwtEcdsaAlgorithm;
+	readonly alg: Algorithm;
 
 	/**
 	 * The "typ" (type) claim declares the media type of the JWT.
@@ -281,26 +211,26 @@ export function issueToken(header: Header, payload: Payload, secret: string) {
 
 	let signature = '';
 	switch (alg) {
-		case JwtHmacAlgorithm.HS256:
-		case JwtHmacAlgorithm.HS384:
-		case JwtHmacAlgorithm.HS512:
-			signature = hmacSign(unsignedToken, secret, `${JwtHmacAlgorithm[alg]}` as 'SHA256' | 'SHA384' | 'SHA512');
+		case 'HS256':
+		case 'HS384':
+		case 'HS512':
+			signature = hmacSign(unsignedToken, secret, alg);
 			break;
 
-		case JwtRsaAlgorithm.RS256:
-		case JwtRsaAlgorithm.RS384:
-		case JwtRsaAlgorithm.RS512:
-			signature = rsaSign(unsignedToken, secret, `${JwtHmacAlgorithm[alg]}` as 'SHA256' | 'SHA384' | 'SHA512');
+		case 'RS256':
+		case 'RS384':
+		case 'RS512':
+			signature = rsaSign(unsignedToken, secret, alg);
 			break;
 
-		case JwtEcdsaAlgorithm.ES256:
-		case JwtEcdsaAlgorithm.ES384:
-		case JwtEcdsaAlgorithm.ES512:
-			signature = ecdsaSign(unsignedToken, secret, `${JwtHmacAlgorithm[alg]}` as 'ES256' | 'ES384' | 'ES512');
+		case 'ES256':
+		case 'ES384':
+		case 'ES512':
+			signature = ecdsaSign(unsignedToken, secret, alg);
 			break;
 
 		default:
-			throw new Error(`Unsupported algorithm ${alg}`);
+			throw new JwtError(`Unsupported algorithm ${alg}`);
 	}
 
 	return `${unsignedToken}.${signature}`;
