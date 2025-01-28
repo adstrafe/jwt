@@ -1,7 +1,12 @@
-import { hmacSign, ecdsaSign, rsaSign, encodeBase64 } from './crypto';
+import { createVerify, KeyObject } from 'node:crypto';
+import { hmacSign, ecdsaSign, rsaSign, encodeBase64, decodeBase64 } from './crypto';
 import { JwtError } from './JwtError';
 
-export type Signature = string;
+export type Secret =
+	string |
+	Buffer |
+	KeyObject
+
 /**
  * Supported algorithms for signing and verifying JWTs.
  * @value 'HS256' HMAC using SHA-256
@@ -75,7 +80,7 @@ export interface Header {
 	/**
 	 * The "alg" (algorithm) claim specifies the cryptographic algorithm 
 	 * used to sign or encrypt the JWT.
-	 * Supported algorithms include HMAC, RSA, ECDSA, and "none" for unsecured tokens.
+	 * Supported algorithms include HMAC, RSA, ECDSA.
 	 * 
 	 * @see Algorithm for the list of supported values.
 	 */
@@ -194,6 +199,11 @@ export interface Payload<T = Record<string, unknown>> {
 	[key: string]: unknown | T;
 }
 
+export interface VerifyOptions {
+	readonly algorithm: Algorithm;
+	readonly secret: Secret;
+}
+
 /**
  * Signs a JWT token by encoding the header and payload as Base64URL
  * and applying the specified algorithm from the header.
@@ -203,7 +213,7 @@ export interface Payload<T = Record<string, unknown>> {
  * @param secret - The secret key used to sign the token.
  * @returns The signed JWT token as a string.
 */
-export function issueToken(header: Header, payload: Payload, secret: string) {
+export async function issueToken(header: Header, payload: Payload, secret: Secret): Promise<string> {
 	const { alg } = header;
 	const base64header = encodeBase64(JSON.stringify(header));
 	const base64payload = encodeBase64(JSON.stringify(payload));
@@ -214,19 +224,19 @@ export function issueToken(header: Header, payload: Payload, secret: string) {
 		case 'HS256':
 		case 'HS384':
 		case 'HS512':
-			signature = hmacSign(unsignedToken, secret, alg);
+			signature = hmacSign(unsignedToken, secret, alg as 'SHA256' | 'SHA384' | 'SHA512');
 			break;
 
 		case 'RS256':
 		case 'RS384':
 		case 'RS512':
-			signature = rsaSign(unsignedToken, secret, alg);
+			signature = await rsaSign(unsignedToken, secret, alg as 'SHA256' | 'SHA384' | 'SHA512');
 			break;
 
 		case 'ES256':
 		case 'ES384':
 		case 'ES512':
-			signature = ecdsaSign(unsignedToken, secret, alg);
+			signature = await ecdsaSign(unsignedToken, secret, alg);
 			break;
 
 		default:
@@ -234,4 +244,48 @@ export function issueToken(header: Header, payload: Payload, secret: string) {
 	}
 
 	return `${unsignedToken}.${signature}`;
+}
+
+export function verifyToken(token: string, options: VerifyOptions) {
+	let { algorithm, secret } = options;
+	const [ headerBase64, payloadBase64, signature ] = token.split('.');
+	const { alg } = JSON.parse(decodeBase64(headerBase64)) as Header;
+	const payload = JSON.parse(decodeBase64(payloadBase64)) as Payload;
+
+	if (alg !== algorithm) {
+		throw new JwtError(`Algorithm mismatch. \n Expected: ${algorithm}, but got ${alg}`);
+	}
+
+	switch (algorithm) {
+		case 'HS256':
+		case 'HS384':
+		case 'HS512':
+			const expectedSignature = hmacSign(`${headerBase64}.${payloadBase64}`, secret, algorithm as 'SHA256' | 'SHA384' | 'SHA512');
+			if (signature !== expectedSignature) {
+				throw new JwtError(`Jwt malformed.`);
+			}
+			break;
+
+		case 'RS256':
+		case 'RS384':
+		case 'RS512':
+		case 'ES256':
+		case 'ES384':
+		case 'ES512':
+			const verify = createVerify(algorithm);
+			verify.update(`${headerBase64}.${payloadBase64}`);
+
+			if (secret instanceof KeyObject) {
+				secret = secret.export({type: 'pkcs8', format: 'pem'});
+			}
+
+			const isValid = verify.verify({ key: secret }, signature, 'base64');
+			if (!isValid) {
+				throw new JwtError(`Jwt malformed.`);
+			}
+			break;
+
+		default:
+			throw new JwtError(`Unsupported algorithm: ${algorithm}`);
+	}
 }

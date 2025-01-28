@@ -1,5 +1,6 @@
-import { createSign } from 'node:crypto';
-import { Algorithm } from 'src/jwt';
+import { createSign, KeyObject } from 'node:crypto';
+import type { Secret } from 'src/jwt';
+import { JwtError } from 'src/JwtError';
 
 /**
  * Signs data using ECDSA with the specified algorithm.
@@ -9,8 +10,21 @@ import { Algorithm } from 'src/jwt';
  * @param algorithm - The ECDSA signing algorithm to use ('ES256', 'ES384', or 'ES512').
  * @returns The ECDSA signature in base64 encoding.
  */
-export function ecdsaSign(data: string, privateKey: string, algorithm: Algorithm) {
-	const sign = createSign(algorithm);
-	sign.update(data);
-	return sign.sign({ key: privateKey, dsaEncoding: 'ieee-p1363' }, 'base64');
+export async function ecdsaSign(data: string, privateKey: Secret, algorithm: 'ES256' | 'ES384' | 'ES512'): Promise<string> {
+	return new Promise((resolve, reject) => {
+		try {
+			const sign = createSign(algorithm);
+			sign.update(data);
+
+			if (privateKey instanceof KeyObject) {
+				privateKey = privateKey.export({type: 'pkcs8', format: 'pem'});
+			}
+
+			const signature = sign.sign({ key: privateKey, dsaEncoding: 'ieee-p1363' }, 'base64');
+			resolve(signature);
+		}
+		catch (error: any) {
+			reject(new JwtError(`ECDSA signing failed ${error.message}`, error));
+		}
+	});
 }

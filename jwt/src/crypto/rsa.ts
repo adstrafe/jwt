@@ -1,5 +1,6 @@
 import { createSign } from 'node:crypto';
-import { Algorithm } from 'src/jwt';
+import type { Secret } from 'src/jwt';
+import { JwtError } from 'src/JwtError';
 
 /**
  * Signs data using RSA with the specified algorithm.
@@ -9,8 +10,16 @@ import { Algorithm } from 'src/jwt';
  * @param algorithm - The RSA signing algorithm to use ('SHA256', 'SHA384', or 'SHA512').
  * @returns The RSA signature in base64 encoding.
  */
-export function rsaSign(data: string, privateKey: string, algorithm: Algorithm) {
-	const sign = createSign(algorithm);
-	sign.update(data);
-	return sign.sign(privateKey, 'base64');
+export async function rsaSign(data: string, privateKey: Secret, algorithm: 'SHA256' | 'SHA384' | 'SHA512'): Promise<string> {
+	return new Promise((resolve, reject) => {
+		try {
+			const sign = createSign(algorithm);
+			sign.update(data);
+			const signature = sign.sign(privateKey, 'base64');
+			resolve(signature);
+		}
+		catch (error: any) {
+			reject(new JwtError(`RSA signing failed ${error.message}`, error));
+		}
+	});
 }
