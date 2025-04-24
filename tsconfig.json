@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"lib": [
+			"esnext"
+		],
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"newLine": "lf",
+		"noEmit": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"types": [
+			"mocha",
+			"node"
+		],
+		"target": "esnext"
+	},
+	"include": [
+		"./src/**/*"
+	]
+}

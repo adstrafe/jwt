@@ -1,4 +1,19 @@
 {
-  "name": "jwt",
-  "packageManager": "yarn@4.0.2"
+	"name": "jwt",
+	"version": "1.0.0",
+	"license": "ISC",
+	"scripts": {
+		"test": "ts-mocha ./src/**/*.test.ts"
+	},
+	"devDependencies": {
+		"@types/chai": "5.2.1",
+		"@types/mocha": "10.0.10",
+		"@types/node": "22.10.10",
+		"chai": "5.2.0",
+		"mocha": "11.1.0",
+		"ts-mocha": "11.1.0",
+		"ts-node": "10.9.2",
+		"typescript": "5.7.3"
+	},
+	"packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
 }
