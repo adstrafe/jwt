@@ -806,9 +806,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwt@workspace:.":
+"jwt-lib@workspace:.":
   version: 0.0.0-use.local
-  resolution: "jwt@workspace:."
+  resolution: "jwt-lib@workspace:."
   dependencies:
     "@types/chai": "npm:5.2.1"
     "@types/mocha": "npm:10.0.10"

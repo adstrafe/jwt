@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { Header, issueToken, UserPayload, verifyToken } from '..';
-import { encodeBase64, decodeBase64, hmacSign } from '../crypto';
-import { JwtError } from '../JwtError';
+import { Header, issueToken, UserPayload, verifyToken } from '../index.js';
+import { encodeBase64, decodeBase64, hmacSign } from '../crypto/index.js';
+import { JwtError } from '../JwtError.js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 

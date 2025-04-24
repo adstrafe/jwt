@@ -1,7 +1,7 @@
 import { createSign, KeyObject } from 'node:crypto';
-import type { Secret } from '..';
-import { JwtError } from '../JwtError';
-import { encodeBase64 } from '.';
+import type { Secret } from '../index.js';
+import { JwtError } from '../JwtError.js';
+import { encodeBase64 } from './base64.js';
 
 /**
  * Signs data using ECDSA with the specified algorithm.

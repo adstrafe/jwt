@@ -1,6 +1,6 @@
-import { createVerify, KeyObject, Verify } from 'node:crypto';
-import { hmacSign, ecdsaSign, rsaSign, encodeBase64, decodeBase64 } from './crypto';
-import { JwtError } from './JwtError';
+import { createVerify, KeyObject } from 'node:crypto';
+import { encodeBase64, decodeBase64, hmacSign, rsaSign, ecdsaSign } from './crypto/index.js';
+import { JwtError } from './JwtError.js';
 
 export type Secret =
 	string |

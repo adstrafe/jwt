@@ -11,7 +11,7 @@ const RAW_RUNTIME_STATE =
   ],\
   "dependencyTreeRoots": [\
     {\
-      "name": "jwt",\
+      "name": "jwt-lib",\
       "reference": "workspace:."\
     }\
   ],\
@@ -19,7 +19,7 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
-    ["jwt", ["workspace:."]]\
+    ["jwt-lib", ["workspace:."]]\
   ],\
   "fallbackPool": [\
   ],\
@@ -32,10 +32,10 @@ const RAW_RUNTIME_STATE =
           ["@types/mocha", "npm:10.0.10"],\
           ["@types/node", "npm:22.10.10"],\
           ["chai", "npm:5.2.0"],\
-          ["jwt", "workspace:."],\
+          ["jwt-lib", "workspace:."],\
           ["mocha", "npm:11.1.0"],\
-          ["ts-mocha", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:11.1.0"],\
-          ["ts-node", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:10.9.2"],\
+          ["ts-mocha", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:11.1.0"],\
+          ["ts-node", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:10.9.2"],\
           ["typescript", "patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -994,7 +994,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["jwt", [\
+    ["jwt-lib", [\
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
@@ -1002,10 +1002,10 @@ const RAW_RUNTIME_STATE =
           ["@types/mocha", "npm:10.0.10"],\
           ["@types/node", "npm:22.10.10"],\
           ["chai", "npm:5.2.0"],\
-          ["jwt", "workspace:."],\
+          ["jwt-lib", "workspace:."],\
           ["mocha", "npm:11.1.0"],\
-          ["ts-mocha", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:11.1.0"],\
-          ["ts-node", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:10.9.2"],\
+          ["ts-mocha", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:11.1.0"],\
+          ["ts-node", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:10.9.2"],\
           ["typescript", "patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -1648,15 +1648,15 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:11.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/ts-mocha-virtual-23387f5446/4/.yarn/berry/cache/ts-mocha-npm-11.1.0-25d5e5967a-10c0.zip/node_modules/ts-mocha/",\
+      ["virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:11.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/ts-mocha-virtual-8a633539da/4/.yarn/berry/cache/ts-mocha-npm-11.1.0-25d5e5967a-10c0.zip/node_modules/ts-mocha/",\
         "packageDependencies": [\
           ["@types/mocha", "npm:10.0.10"],\
           ["@types/ts-node", null],\
           ["@types/tsconfig-paths", null],\
           ["mocha", "npm:11.1.0"],\
-          ["ts-mocha", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:11.1.0"],\
-          ["ts-node", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:10.9.2"],\
+          ["ts-mocha", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:11.1.0"],\
+          ["ts-node", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:10.9.2"],\
           ["tsconfig-paths", null]\
         ],\
         "packagePeers": [\
@@ -1678,8 +1678,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:10.9.2", {\
-        "packageLocation": "./.yarn/__virtual__/ts-node-virtual-38e2eacb99/4/.yarn/berry/cache/ts-node-npm-10.9.2-3f3890b9ac-10c0.zip/node_modules/ts-node/",\
+      ["virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:10.9.2", {\
+        "packageLocation": "./.yarn/__virtual__/ts-node-virtual-247f91eba3/4/.yarn/berry/cache/ts-node-npm-10.9.2-3f3890b9ac-10c0.zip/node_modules/ts-node/",\
         "packageDependencies": [\
           ["@cspotcode/source-map-support", "npm:0.8.1"],\
           ["@swc/core", null],\
@@ -1698,7 +1698,7 @@ const RAW_RUNTIME_STATE =
           ["create-require", "npm:1.1.1"],\
           ["diff", "npm:4.0.2"],\
           ["make-error", "npm:1.3.6"],\
-          ["ts-node", "virtual:b94c54e935fcb4ea36294f4efa2735f4b8a9a54e30cf6ba3aab15a374eb06003d5d2769385fa702f2d7eab035d47eaee182ed67228d16edf6d9cab4c532d682b#npm:10.9.2"],\
+          ["ts-node", "virtual:450cb36e486c145f95668a12fb18b3e4517af36efd79dd76dce5b1b8f09c4a646b750bc1261037359e2ee0932ec07c9b98a38dd4044393ce86db74d2a23b9422#npm:10.9.2"],\
           ["typescript", "patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"],\
           ["v8-compile-cache-lib", "npm:3.0.1"],\
           ["yn", "npm:3.1.1"]\

@@ -1,9 +1,14 @@
 {
-	"name": "jwt",
+	"name": "@adstrafe/jwt-lib",
 	"version": "1.0.0",
 	"license": "ISC",
+	"private": false,
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
-		"test": "ts-mocha ./src/**/*.test.ts"
+		"build": "tsc",
+		"test": "ts-mocha --experimental-specifier-resolution=node ./src/**/*.test.ts"
 	},
 	"devDependencies": {
 		"@types/chai": "5.2.1",
@@ -15,5 +20,19 @@
 		"ts-node": "10.9.2",
 		"typescript": "5.7.3"
 	},
-	"packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
+	"packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538",
+	"files": [
+		"dist"
+	],
+	"description": "A JSON Web Token library for Node.js",
+	"keywords": [
+		"jwt",
+		"json-web-token",
+		"authentication"
+	],
+	"author": "Vojtěch Lahuta",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/adstrafe/jwt"
+	}
 }

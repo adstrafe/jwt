@@ -1,6 +1,6 @@
 import { createHmac } from 'node:crypto';
-import { encodeBase64 } from '.';
-import type { Secret } from '..';
+import { encodeBase64 } from './base64.js';
+import type { Secret } from '../index.js';
 
 /**
  * Signs data using HMAC with the specified algorithm.

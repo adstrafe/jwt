@@ -1,0 +1,9 @@
+# .npmignore
+src/
+test/
+*.test.ts
+node_modules/
+.yarn/
+.pnp.*
+.yarnrc.yml
+tsconfig.json

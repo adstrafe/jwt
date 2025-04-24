@@ -6,3 +6,5 @@
 !.yarn/versions
 
 .DS_Store
+
+dist
